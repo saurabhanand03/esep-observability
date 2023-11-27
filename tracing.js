@@ -14,7 +14,7 @@ const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
 
 //Exporter
 module.exports = (serviceName) => {
-   const exporter = new ConsoleSpanExporter();
+   const exporter = new JaegerExporter();
    const provider = new NodeTracerProvider({
        resource: new Resource({
            [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
