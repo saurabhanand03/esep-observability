@@ -9,23 +9,26 @@ const { ExpressInstrumentation } = require("opentelemetry-instrumentation-expres
 const { MongoDBInstrumentation } = require("@opentelemetry/instrumentation-mongodb");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
+const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
+const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
+
 //Exporter
 module.exports = (serviceName) => {
-    const exporter = new ConsoleSpanExporter();
-    const provider = new NodeTracerProvider({
-        resource: new Resource({
-            [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
-        }),
-    });
-    provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
-    provider.register();
-    registerInstrumentations({
-        instrumentations: [
-            new HttpInstrumentation(),
-            new ExpressInstrumentation(),
-            new MongoDBInstrumentation(),
-        ],
-        tracerProvider: provider,
-    });
-    return trace.getTracer(serviceName);
+   const exporter = new ConsoleSpanExporter();
+   const provider = new NodeTracerProvider({
+       resource: new Resource({
+           [SemanticResourceAttributes.SERVICE_NAME]: serviceName,
+       }),
+   });
+   provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+   provider.register();
+   registerInstrumentations({
+       instrumentations: [
+           new HttpInstrumentation(),
+           new ExpressInstrumentation(),
+           new MongoDBInstrumentation(),
+       ],
+       tracerProvider: provider,
+   });
+   return trace.getTracer(serviceName);
 };
