@@ -9,7 +9,6 @@ const { ExpressInstrumentation } = require("opentelemetry-instrumentation-expres
 const { MongoDBInstrumentation } = require("@opentelemetry/instrumentation-mongodb");
 const { HttpInstrumentation } = require("@opentelemetry/instrumentation-http");
 const { registerInstrumentations } = require("@opentelemetry/instrumentation");
-const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { JaegerExporter } = require("@opentelemetry/exporter-jaeger");
 
 //Exporter
